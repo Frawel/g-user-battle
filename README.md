@@ -1,2 +1,2 @@
-# g-user-battle
-g-user-battle
+# Github users battle
+
