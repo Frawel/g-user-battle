@@ -1,16 +1,16 @@
-var React = require('react');
-var PropTypes = require('prop-types');
-var api = require('../utils/api');
-var Loading = require('./Loading');
+import React from 'react';
+import PropTypes from 'prop-types';
+import {fetchPopularRepos} from  '../utils/api';
+import Loading from './Loading';
 
 function SelectedLanguage(props) {
-    var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+    const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
     return (
         <div>
             <ul className="languages">
                 {languages.map(lang => (
                     <li style={lang === props.selectedLanguage ? { color: '#d0021b' } : null}
-                        onClick={props.onSelect.bind(null, lang)}
+                        onClick={ () => props.onSelect(lang)}
                         key={lang}>
                         {lang}
                     </li>
@@ -24,20 +24,20 @@ function SelectedLanguage(props) {
 function RepoGrid(props) {
     return (
         <ul className='popular-list'>
-            {props.repos.map((repo, index) => (
-                <li key={repo.name} className='popular-item' >
+            {props.repos.map(({name,html_url,stargazers_count, owner}, index) => (
+                <li key={name} className='popular-item' >
                     <div className='popular-rank'>
                         #{index + 1}
                     </div>
                     <ul className='space-list-items'>
                         <li>
                             <img className='avatar'
-                                src={repo.owner.avatar_url}
-                                alt={'Avatar for ' + repo.owner.login} />
+                                src={owner.avatar_url}
+                                alt={`Avatar for  ${owner.login}`} />
                         </li>
-                        <li><a href={repo.html_url}>{repo.name}</a></li>
-                        <li>@{repo.owner.login}</li>
-                        <li>{repo.stargazers_count} stars</li>
+                        <li><a href={html_url}>{name}</a></li>
+                        <li>@{owner.login}</li>
+                        <li>{stargazers_count} stars</li>
                     </ul>
                 </li>
             ))
@@ -56,7 +56,6 @@ SelectedLanguage.propTypes = {
     onSelect: PropTypes.func.isRequired
 }
 
-
 class Popular extends React.Component {
     constructor(props) {
         super(props);
@@ -73,9 +72,8 @@ class Popular extends React.Component {
     }
 
     getPopularRepost(lang = this.state.selectedLanguage) {
-        api.fetchPopularRepos(lang).then(repos => {
-
-            this.setState(() => ({ repos: repos }));
+        fetchPopularRepos(lang).then(repos => {
+            this.setState(() => ({ repos }));
         });
     }
 
@@ -96,5 +94,4 @@ class Popular extends React.Component {
             </div>)
     }
 }
-
-module.exports = Popular;
+export default Popular;

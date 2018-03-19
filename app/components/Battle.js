@@ -1,8 +1,7 @@
-var React = require('react');
-var PropTypes = require('prop-types');
-var Link = require('react-router-dom').Link;
-
-const PlayerPreview = require('./PlayerPreview');
+import React  from'react';
+import PropTypes  from 'prop-types';
+import {Link} from 'react-router-dom';
+import PlayerPreview  from './PlayerPreview';
 
 
 class PlayerInput extends React.Component {
@@ -16,12 +15,8 @@ class PlayerInput extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange(event) {
-        let value = event.target.value;
-        this.setState(function () {
-            return {
-                username: value
-            }
-        })
+        const value = event.target.value;
+        this.setState(() => ({ username: value }))
     }
 
     handleSubmit(event) {
@@ -73,34 +68,21 @@ class Battle extends React.Component {
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
-
     }
 
-    handleSubmit(id, username) {
-        this.setState(function () {
-            let newState = {};
-            newState[id + 'Name'] = username;
-            newState[id + 'Image'] = 'https://github.com/' + username + '.png?size=200';
-            return newState;
-        });
+    handleSubmit(id, username) { this.setState(() => ({
+                                [id + 'Name']: username,
+                                [id + 'Image']: `https://github.com/${username}.png?size=200`}));
     }
 
-    handleReset(id) {
-        this.setState(function () {
-            let newState = {};
-            newState[id + 'Name'] = '';
-            newState[id + 'Image'] = null;
-            return newState;
-        });
+    handleReset(id) { this.setState(() => ({
+                        [id + 'Name'] : '',
+                        [id + 'Image']: null}));
     }
 
     render() {
-        var match = this.props.match;
-        var playerOneName = this.state.playerOneName;
-        var playerTwoName = this.state.playerTwoName;
-        var playerOneImage = this.state.playerOneImage;
-        var playerTwoImage = this.state.playerTwoImage;
-
+        const match = this.props.match;
+        const {playerOneName, playerTwoName ,playerOneImage, playerTwoImage,} = this.state;
         return (
             <div>
                 <div className='row'>
@@ -116,7 +98,7 @@ class Battle extends React.Component {
                             username={playerOneName}>
                             <buttom
                                 className='reset'
-                                onClick={this.handleReset.bind(null, 'playerOne')}>
+                                onClick={ () => this.handleReset('playerOne')}>
                                 Reset
                             </buttom>
                         </PlayerPreview>
@@ -132,9 +114,9 @@ class Battle extends React.Component {
                         <PlayerPreview
                             avatar={playerTwoImage}
                             username={playerTwoName}>
-                             <buttom
+                            <buttom
                                 className='reset'
-                                onClick={this.handleReset.bind(null, 'playerTwo')}>
+                                onClick={() => this.handleReset('playerTwo')}>
                                 Reset
                             </buttom>
                         </PlayerPreview>
@@ -145,9 +127,8 @@ class Battle extends React.Component {
                     <Link
                         className='button'
                         to={{
-                            pathname: match.url + '/results',
-                            search: '?playerOneName=' + playerOneName + '&playerTwoName=' +
-                                playerTwoName
+                            pathname: `${match.url}/results`,
+                            search: `?playerOneName=${playerOneName}&playerTwoName=${playerTwoName}`
                         }}>
                         Battle
                     </Link>
@@ -156,5 +137,4 @@ class Battle extends React.Component {
         )
     }
 }
-
-module.exports = Battle;
+export default Battle;

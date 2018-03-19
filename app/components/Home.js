@@ -1,5 +1,5 @@
 import React from 'react';
-var Link = require('react-router-dom').Link;
+import{Link} from 'react-router-dom';
 
 const Home = () => (
     <div className='home-container'>
@@ -11,4 +11,5 @@ const Home = () => (
         </Link>    
     </div>
 )
-module.exports = Home ;
+
+export default Home

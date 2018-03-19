@@ -1,21 +1,13 @@
-var React = require('react');
-
-
-
-var ReactRouter = require('react-router-dom');
-var Router = ReactRouter.BrowserRouter;
-var Route = ReactRouter.Route;
-var Switch = ReactRouter.Switch;
-
-var Popular = require('./Popular');
-
+import React from 'react';
+import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
+import Popular from './Popular';
 import Nav from './Nav';
 import Home from './Home';
 import Battle from './Battle';
 import Results from './Results';
 
 const NotFound = ({match}) => (<div>
-   {`Not Found page ${match.Url} sorry`}
+   {`Not Found page ${match.url} sorry`}
 </div>)
 
 class App extends React.Component {
@@ -36,4 +28,4 @@ class App extends React.Component {
         )
     }
 }
-module.exports = App;
+export default App;

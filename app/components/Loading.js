@@ -1,5 +1,5 @@
 import React from 'react';
-const Proptypes = require('prop-types');
+import PropTypes from 'prop-types';
 
 const styles = {
     content: {
@@ -19,23 +19,11 @@ class Loading extends React.Component {
         }
     }
     componentDidMount() {
-        var stopper = '...'
-        console.log('stopper', stopper)
-        this.interval = window.setInterval(function () {
-            if (this.state.dot === stopper) {
-                this.setState(function () {
-                    return {
-                        dot: ''
-                    }
-                })
-            } else {
-                this.setState(function (prevState) {
-                    return {
-                        dot: prevState.dot + '.'
-                    }
-                })
-            }
-        }.bind(this), this.props.speed)
+        const stopper = '...'
+        this.interval = window.setInterval(() => {
+                        this.state.dot === stopper ?  this.setState(() => ({dot: '' }))
+                        : this.setState((prevState)=>({dot: prevState.dot + '.'}))            
+        }, this.props.speed)
     }
 
     componentWillUnmount() {
@@ -56,8 +44,8 @@ class Loading extends React.Component {
 }
 
 Loading.propTypes = {
-    text: Proptypes.string.isRequired,
-    speed: Proptypes.number.isRequired
+    text: PropTypes.string.isRequired,
+    speed: PropTypes.number.isRequired
 }
 
 Loading.defaultProps = {
@@ -65,4 +53,4 @@ Loading.defaultProps = {
     speed: 200
 }
 
-module.exports = Loading;
+export default Loading;

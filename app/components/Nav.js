@@ -1,7 +1,7 @@
 import React from 'react';
-var  NavLink = require ('react-router-dom').NavLink;
+import { NavLink } from 'react-router-dom';
 
-const Nav = () => (
+const  Nav = () => (
     <ul className='nav'>
         <li>
             <NavLink exact to='/'>
@@ -20,5 +20,4 @@ const Nav = () => (
         </li>
     </ul>
 )
-
 export default Nav;

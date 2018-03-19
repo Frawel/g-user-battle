@@ -1,14 +1,13 @@
-var React = require('react');
-var queryString = require('query-string');
-var api = require('../utils/api')
-var Link = require('react-router-dom').Link;
-var PropTypes = require('prop-types');
+import React from 'react';
+import queryString from 'query-string';
+import {battle} from  '../utils/api';
+import {Link} from 'react-router-dom';
+import  PropTypes from 'prop-types';
 
-const PlayerPreview = require('./PlayerPreview');
-const Loading = require('./Loading');
+import PlayerPreview from './PlayerPreview';
+import Loading from './Loading';
 
-function Profile(props) {
-    let info = props.info;
+function Profile({ info }) {
     return (
         <PlayerPreview avatar={info.avatar_url} username={info.login} >
             <ul className='space-list-items'>
@@ -24,12 +23,12 @@ function Profile(props) {
     )
 }
 
-function Player(props) {
+function Player({label,score,profile}) {
     return (
         <div>
-            <h1 className='header'>{props.label}</h1>
-            <h3 style={{ textAlign: 'center' }}>Score: {props.score}</h3>
-            <Profile info={props.profile} />
+            <h1 className='header'>{label}</h1>
+            <h3 style={{ textAlign: 'center' }}>Score: {score}</h3>
+            <Profile info={profile} />
         </div>
     )
 }
@@ -52,43 +51,32 @@ class Results extends React.Component {
         }
     }
     componentDidMount() {
-        var players = queryString.parse(this.props.location.search);
-        api.battle([players.playerOneName,
-        players.playerTwoName])
-            .then(function (results) {
-                if (results === null) {
-                    this.setState(function () {
-                        return {
-                            error: 'Looks leke there is error, please check that both users exist on github',
-                            loading: false
+        const {playerOneName,playerTwoName} = queryString.parse(this.props.location.search);
+
+        battle([
+                playerOneName,
+                playerTwoName])
+                    .then((results) => {
+                        if (results === null) {
+                            this.setState(() => ({
+                                error: 'Looks leke there is error, please check that both users exist on github',
+                                loading: false
+                            }))
                         }
+
+                        this.setState(() => ({
+                            error: null,
+                            winner: results[0],
+                            loser: results[1],
+                            loading: false
+                        }))
                     })
-                }
-
-                this.setState(function () {
-                    return {
-                        error: null,
-                        winner: results[0],
-                        loser: results[1],
-                        loading: false
-
-                    }
-                }
-                )
-
-            }.bind(this)
-            )
     }
     render() {
-
-        let error = this.state.error;
-        let winner = this.state.winner;
-        let loser = this.state.loser;
-        let loading = this.state.loading;
-        console.log('From Variables declarations', error, winner, loser, loading)
-
+     const  { error, winner, loser  , loading } = this.state;
+        
         if (loading === true) {
-            return <Loading/>
+            return <Loading />
         }
 
         if (error) {
