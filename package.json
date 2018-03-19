@@ -1,10 +1,15 @@
 {
-  "name": "github-battle",
+  "name": "let-github-battle",
   "version": "1.0.0",
-  "description": "",
+  "description": "Practicing Reactjs",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open"
+    "create": "webpack -p",
+    "start": "webpack-dev-server --open",
+    "build": "set NODE_ENV='production' webpack -p",
+    "prod": "webpack --mode production",
+    "deploy": "npm run build && firebase deploy",
+    "firebase-init": "firebase login && firebase init"
   },
   "babel": {
     "presets": [
@@ -12,13 +17,16 @@
       "react"
     ]
   },
-  "author": "frawel2@gmail.com",
-  "license": "ISC",
+  "author": "Frawel Sanchez",
+  "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "common-js": "^0.3.8",
     "prop-types": "^15.6.1",
+    "query-string": "^6.0.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
